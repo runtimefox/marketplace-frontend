@@ -1,8 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
+
+const ACCEPTED_TYPES = { 'image/jpeg': [], 'image/png': [], 'image/webp': [] };
+const MAX_SIZE = 10 * 1024 * 1024;
 
 interface IAvatarInputProps {
   label: string;
@@ -18,14 +21,19 @@ export const AvatarInput = ({ label, onChange }: IAvatarInputProps) => {
     };
   }, [preview]);
 
-  const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
-    accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [] },
-    maxSize: 10 * 1024 * 1024,
-    multiple: false,
-    onDropAccepted: ([file]) => {
+  const onDropAccepted = useCallback(
+    ([file]: File[]) => {
       setPreview(URL.createObjectURL(file));
       onChange?.(file);
     },
+    [onChange],
+  );
+
+  const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
+    accept: ACCEPTED_TYPES,
+    maxSize: MAX_SIZE,
+    multiple: false,
+    onDropAccepted,
   });
 
   return (

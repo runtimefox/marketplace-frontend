@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
+import { useCallback, useMemo, useState } from 'react';
+import { Controller, useForm, type ControllerRenderProps, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/Input';
 import { useAuth } from '@/hooks/useAuth';
@@ -12,6 +12,8 @@ export const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const { mutate, isPending } = useAuth(isLogin);
 
+  const resolver = useMemo(() => zodResolver(getAuthSchema(isLogin)), [isLogin]);
+
   const {
     register,
     control,
@@ -19,16 +21,25 @@ export const Auth = () => {
     clearErrors,
     formState: { errors },
   } = useForm<TypeAuthForm>({
-    resolver: zodResolver(getAuthSchema(isLogin)),
+    resolver,
     defaultValues: { email: '', password: '', username: '', avatar: null },
   });
 
-  const onSubmit: SubmitHandler<TypeAuthForm> = (data: TypeAuthForm) => mutate(data);
+  const onSubmit: SubmitHandler<TypeAuthForm> = useCallback((data) => mutate(data), [mutate]);
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
+  const submit = useMemo(() => handleSubmit(onSubmit), [handleSubmit, onSubmit]);
+
+  const toggleMode = useCallback(() => {
+    setIsLogin((prev) => !prev);
     clearErrors();
-  };
+  }, [clearErrors]);
+
+  const renderAvatar = useCallback(
+    ({ field }: { field: ControllerRenderProps<TypeAuthForm, 'avatar'> }) => (
+      <AvatarInput label="Profile photo" onChange={field.onChange} />
+    ),
+    [],
+  );
 
   return (
     <div className="flex min-h-screen items-center justify-center border-x border-gray-200 bg-gray-50 ">
@@ -36,16 +47,10 @@ export const Auth = () => {
         <h2 className="mb-6 text-center text-2xl font-semibold text-gray-700">
           {isLogin ? 'Login' : 'Register'}
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+        <form onSubmit={submit} noValidate className="space-y-4">
           {!isLogin && (
             <>
-              <Controller
-                control={control}
-                name="avatar"
-                render={({ field }) => (
-                  <AvatarInput label="Profile photo" onChange={field.onChange} />
-                )}
-              />
+              <Controller control={control} name="avatar" render={renderAvatar} />
               <Input
                 id="username"
                 label="Username"

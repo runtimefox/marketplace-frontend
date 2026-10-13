@@ -4,6 +4,7 @@ import { IconButton } from '@/components/ui/IconButton';
 import { Bell, LogIn, Store } from 'lucide-react';
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
+import { useCallback } from 'react';
 import { pages } from '@/config/menu.config';
 import { useProfile } from '@/hooks/useProfile';
 import { useLogout } from '@/hooks/useLogout';
@@ -11,6 +12,8 @@ import { useLogout } from '@/hooks/useLogout';
 export const Header = () => {
   const { user } = useProfile();
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
+
+  const handleLogout = useCallback(() => logout(), [logout]);
 
   return (
     <header className="border-b border-border bg-background">
@@ -64,7 +67,7 @@ export const Header = () => {
               </Link>
               <button
                 type="button"
-                onClick={() => logout()}
+                onClick={handleLogout}
                 disabled={isLoggingOut}
                 className="ml-3 flex h-10 items-center gap-2 rounded-full bg-primary px-5 font-medium text-white transition-colors hover:bg-primary-hover disabled:opacity-60">
                 Logout
