@@ -6,9 +6,11 @@ import { useApolloClient } from '@apollo/client/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { errorCatch } from '@/api/error';
+import { useSyncGuestCart } from './useSyncGuestCart';
 export const useAuth = (isLogin: boolean) => {
   const { push } = useRouter();
   const client = useApolloClient();
+  const syncGuestCart = useSyncGuestCart();
   const { mutate, data, isPending, isError } = useMutation({
     mutationKey: [isLogin ? 'login' : 'register'],
     mutationFn: async ({ avatar, ...data }: IRegisterRequest) => {
@@ -22,6 +24,7 @@ export const useAuth = (isLogin: boolean) => {
       return response;
     },
     onSuccess: async () => {
+      await syncGuestCart();
       await client.resetStore();
       toast.success(isLogin ? 'Login successful' : 'Registration successful');
       push(pages.HOME);
