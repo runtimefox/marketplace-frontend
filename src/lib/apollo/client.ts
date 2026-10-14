@@ -1,4 +1,12 @@
-import { ApolloClient, ApolloLink, CombinedGraphQLErrors, HttpLink, InMemoryCache, ServerError } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  CombinedGraphQLErrors,
+  HttpLink,
+  InMemoryCache,
+  ServerError,
+  type FieldPolicy,
+} from '@apollo/client';
 import { ErrorLink } from '@apollo/client/link/error';
 import { from, switchMap } from 'rxjs';
 
@@ -42,9 +50,25 @@ const httpLink = new HttpLink({
   credentials: 'include',
 });
 
+const connectionPolicy: FieldPolicy<{ nodes?: unknown[] }> = {
+  keyArgs: ['search', 'where', 'order'],
+  merge(existing, incoming, { args }) {
+    if (!existing || !args?.after) return incoming;
+    return { ...incoming, nodes: [...(existing.nodes ?? []), ...(incoming.nodes ?? [])] };
+  },
+};
+
 export function makeApolloClient() {
   return new ApolloClient({
     link: ApolloLink.from([refreshLink, httpLink]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            products: connectionPolicy,
+          },
+        },
+      },
+    }),
   });
 }

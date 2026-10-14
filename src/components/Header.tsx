@@ -8,6 +8,7 @@ import { useCallback } from 'react';
 import { pages } from '@/config/menu.config';
 import { useProfile } from '@/hooks/useProfile';
 import { useLogout } from '@/hooks/useLogout';
+import { Container } from '@/components/ui/Container';
 
 export const Header = () => {
   const { user } = useProfile();
@@ -17,7 +18,7 @@ export const Header = () => {
 
   return (
     <header className="border-b border-border bg-background">
-      <div className="mx-auto flex h-20 max-w-7xl items-center gap-4 px-4 lg:gap-10 lg:px-8">
+      <Container className="flex h-20 items-center gap-4 lg:gap-10">
         <Link href="/" className="flex shrink-0 items-center gap-3">
           <Store className="size-8" color="#ff7900" />
           <span className="hidden text-xl font-semibold text-foreground sm:block">Marketplace</span>
@@ -50,7 +51,7 @@ export const Header = () => {
           {user ? (
             <>
               <Link href={pages.PROFILE} className="flex items-center gap-3">
-                <span className="relative flex size-10 items-center justify-center overflow-hidden rounded-full bg-surface font-medium text-muted">
+                <span className="relative flex size-10 items-center justify-center overflow-hidden rounded-full bg-surface font-medium text-muted-foreground">
                   {user.avatar ? (
                     <Image
                       src={user.avatar.smallUrl}
@@ -81,7 +82,7 @@ export const Header = () => {
             </Link>
           )}
         </div>
-      </div>
+      </Container>
     </header>
   );
 };

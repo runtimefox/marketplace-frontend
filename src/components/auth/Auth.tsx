@@ -81,7 +81,7 @@ export const Auth = () => {
             {isLogin ? 'Login' : 'Register'}
           </button>
         </form>
-        <p className="mt-6 text-center text-sm text-muted">
+        <p className="mt-6 text-center text-sm text-muted-foreground">
           {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
           <button
             type="button"

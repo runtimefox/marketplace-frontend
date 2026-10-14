@@ -4,7 +4,7 @@ export const IconButton = ({ label, children }: { label: string; children?: Reac
   <button
     type="button"
     aria-label={label}
-    className="relative flex size-10 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-foreground"
+    className="relative flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
   >
     {children}
   </button>

@@ -53,7 +53,7 @@ export const AvatarInput = ({ label, onChange }: IAvatarInputProps) => {
           <span className="block text-sm font-medium text-primary">
             {isDragActive ? 'Drop the photo here' : preview ? 'Change photo' : 'Upload or drag a photo'}
           </span>
-          <span className="block text-xs text-muted">JPEG, PNG or WebP, up to 10 MB</span>
+          <span className="block text-xs text-muted-foreground">JPEG, PNG or WebP, up to 10 MB</span>
         </span>
       </div>
       {fileRejections.length > 0 && (
