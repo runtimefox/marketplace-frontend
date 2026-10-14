@@ -1,22 +1,25 @@
 import { memo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { TypeCatalogProduct } from '@/types/catalog.type';
+import { pages } from '@/config/menu.config';
 import { formatPrice } from '@/lib/format';
+import { AddToCartButton } from './AddToCartButton';
 
 interface IProductCardProps {
   product: TypeCatalogProduct;
 }
 
 const ProductCardBase = ({ product }: IProductCardProps) => (
-  <article className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-md">
-    <div className="relative aspect-square bg-surface">
+  <article className="relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow focus-within:ring-2 focus-within:ring-ring hover:shadow-md">
+    <div className="relative aspect-[4/3] bg-surface">
       {product.mainImage && (
         <Image
           src={product.mainImage.smallUrl}
           alt={product.name}
           fill
           unoptimized
-          className="object-cover"
+          className="object-contain p-3"
         />
       )}
       {product.stock === 0 && (
@@ -25,17 +28,28 @@ const ProductCardBase = ({ product }: IProductCardProps) => (
         </span>
       )}
     </div>
-    <div className="flex flex-1 flex-col gap-1 p-4">
-      <h3 className="line-clamp-2 text-sm font-medium text-foreground">{product.name}</h3>
-      <p className="text-xs text-muted-foreground">{product.seller.name}</p>
-      <p className="mt-auto pt-2 text-lg font-semibold text-foreground">
-        {formatPrice(product.price)}
-      </p>
-      <p className="text-xs text-muted-foreground">
-        {product.reviewCount > 0
-          ? `${product.rating.toFixed(1)} · ${product.reviewCount} reviews`
-          : 'No reviews yet'}
-      </p>
+    <div className="flex flex-1 flex-col gap-1 p-3">
+      <p className="text-base font-semibold text-foreground">{formatPrice(product.price)}</p>
+      <h3 className="line-clamp-2 text-sm text-foreground">
+        <Link
+          href={pages.PRODUCT(product.id)}
+          className="after:absolute after:inset-0 focus-visible:outline-none">
+          {product.name}
+        </Link>
+      </h3>
+      <div className="mt-auto flex items-center gap-2 pt-2">
+        <span className="flex h-6 shrink-0 items-center gap-1 rounded-full bg-rating px-2 text-xs font-medium text-foreground">
+          {product.reviewCount > 0 ? product.rating.toFixed(1) : '—'}
+        </span>
+        <span className="h-4 w-px bg-border" />
+        <span className="truncate text-xs text-muted-foreground">{product.reviewCount} reviews</span>
+        <span className="ml-auto">
+          <AddToCartButton
+            productId={product.id}
+            productName={product.name}
+            disabled={product.stock === 0} />
+        </span>
+      </div>
     </div>
   </article>
 );

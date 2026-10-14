@@ -4,12 +4,10 @@ import { Button } from '@/components/ui/button';
 import { useCatalogFilters } from '@/hooks/useCatalogFilters';
 import { PRODUCTS_PAGE_SIZE, useProducts } from '@/hooks/useProducts';
 import { ProductCard } from './ProductCard';
-import Link from 'next/link';
-import { pages } from '@/config/menu.config';
 
 const SKELETON_ITEMS = Array.from({ length: PRODUCTS_PAGE_SIZE }, (_, index) => index);
 
-const gridClassName = 'grid grid-cols-2 gap-4 lg:grid-cols-3';
+const gridClassName = 'grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4';
 
 export const ProductList = () => {
   const { filters, hasFilters, resetFilters } = useCatalogFilters();
@@ -52,12 +50,7 @@ export const ProductList = () => {
       <p className="mb-4 text-sm text-muted-foreground">{totalCount} products</p>
       <div className={gridClassName}>
         {products.map((product) => (
-          <Link
-            key={product.id}
-            href={pages.PRODUCT(product.id)}
-            className="block h-full rounded-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none">
-            <ProductCard product={product} />
-          </Link>
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
       {hasNextPage && (
