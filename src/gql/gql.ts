@@ -14,9 +14,15 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "\n  query GetCategories {\n    categories(order: [{ name: ASC }]) {\n      id\n      name\n    }\n  }\n": typeof types.GetCategoriesDocument,
+    "\n  query GetProductById($id: UUID!) {\n    productById(id: $id) {\n      id\n      name\n      description\n      price\n      stock\n      rating\n      reviewCount\n      category {\n        id\n        name\n      }\n      seller {\n        id\n        name\n        rating\n        logo {\n          smallUrl\n        }\n      }\n      images {\n        id\n        position\n        smallUrl\n        largeUrl\n      }\n    }\n  }\n": typeof types.GetProductByIdDocument,
+    "\n  query GetProducts($first: Int!, $after: String, $where: ProductDtoFilterInput) {\n    products(first: $first, after: $after, where: $where, order: [{ name: ASC }, { id: ASC }]) {\n      totalCount\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      nodes {\n        id\n        name\n        price\n        stock\n        rating\n        reviewCount\n        mainImage {\n          smallUrl\n        }\n        seller {\n          id\n          name\n        }\n      }\n    }\n  }\n": typeof types.GetProductsDocument,
     "\n  query GetMe {\n    me {\n      id\n      username\n      email\n      role\n      avatar {\n        smallUrl\n        largeUrl\n      }\n    }\n  }\n": typeof types.GetMeDocument,
 };
 const documents: Documents = {
+    "\n  query GetCategories {\n    categories(order: [{ name: ASC }]) {\n      id\n      name\n    }\n  }\n": types.GetCategoriesDocument,
+    "\n  query GetProductById($id: UUID!) {\n    productById(id: $id) {\n      id\n      name\n      description\n      price\n      stock\n      rating\n      reviewCount\n      category {\n        id\n        name\n      }\n      seller {\n        id\n        name\n        rating\n        logo {\n          smallUrl\n        }\n      }\n      images {\n        id\n        position\n        smallUrl\n        largeUrl\n      }\n    }\n  }\n": types.GetProductByIdDocument,
+    "\n  query GetProducts($first: Int!, $after: String, $where: ProductDtoFilterInput) {\n    products(first: $first, after: $after, where: $where, order: [{ name: ASC }, { id: ASC }]) {\n      totalCount\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      nodes {\n        id\n        name\n        price\n        stock\n        rating\n        reviewCount\n        mainImage {\n          smallUrl\n        }\n        seller {\n          id\n          name\n        }\n      }\n    }\n  }\n": types.GetProductsDocument,
     "\n  query GetMe {\n    me {\n      id\n      username\n      email\n      role\n      avatar {\n        smallUrl\n        largeUrl\n      }\n    }\n  }\n": types.GetMeDocument,
 };
 
@@ -34,6 +40,18 @@ const documents: Documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetCategories {\n    categories(order: [{ name: ASC }]) {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query GetCategories {\n    categories(order: [{ name: ASC }]) {\n      id\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetProductById($id: UUID!) {\n    productById(id: $id) {\n      id\n      name\n      description\n      price\n      stock\n      rating\n      reviewCount\n      category {\n        id\n        name\n      }\n      seller {\n        id\n        name\n        rating\n        logo {\n          smallUrl\n        }\n      }\n      images {\n        id\n        position\n        smallUrl\n        largeUrl\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetProductById($id: UUID!) {\n    productById(id: $id) {\n      id\n      name\n      description\n      price\n      stock\n      rating\n      reviewCount\n      category {\n        id\n        name\n      }\n      seller {\n        id\n        name\n        rating\n        logo {\n          smallUrl\n        }\n      }\n      images {\n        id\n        position\n        smallUrl\n        largeUrl\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetProducts($first: Int!, $after: String, $where: ProductDtoFilterInput) {\n    products(first: $first, after: $after, where: $where, order: [{ name: ASC }, { id: ASC }]) {\n      totalCount\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      nodes {\n        id\n        name\n        price\n        stock\n        rating\n        reviewCount\n        mainImage {\n          smallUrl\n        }\n        seller {\n          id\n          name\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetProducts($first: Int!, $after: String, $where: ProductDtoFilterInput) {\n    products(first: $first, after: $after, where: $where, order: [{ name: ASC }, { id: ASC }]) {\n      totalCount\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      nodes {\n        id\n        name\n        price\n        stock\n        rating\n        reviewCount\n        mainImage {\n          smallUrl\n        }\n        seller {\n          id\n          name\n        }\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
