@@ -8,11 +8,13 @@ import { useCallback } from 'react';
 import { pages } from '@/config/menu.config';
 import { useProfile } from '@/hooks/useProfile';
 import { useLogout } from '@/hooks/useLogout';
+import { useCart } from '@/hooks/useCart';
 import { Container } from '@/components/ui/Container';
 
 export const Header = () => {
   const { user } = useProfile();
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
+  const { totalQuantity } = useCart(Boolean(user));
 
   const handleLogout = useCallback(() => logout(), [logout]);
 
@@ -43,6 +45,11 @@ export const Header = () => {
         <div className="flex shrink-0 items-center gap-1">
           <IconButton label="Cart">
             <ShoppingCart />
+            {totalQuantity > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[11px] font-semibold text-primary-foreground">
+                {totalQuantity > 99 ? '99+' : totalQuantity}
+              </span>
+            )}
           </IconButton>
           <IconButton label="Notifications">
             <Bell className="size-6" />
