@@ -50,7 +50,7 @@ export const Header = () => {
           {user ? (
             <>
               <Link href={pages.PROFILE} className="flex items-center gap-3">
-                <span className="relative flex size-10 items-center justify-center overflow-hidden rounded-full bg-surface font-medium text-muted">
+                <span className="relative flex size-10 items-center justify-center overflow-hidden rounded-full bg-surface font-medium text-muted-foreground">
                   {user.avatar ? (
                     <Image
                       src={user.avatar.smallUrl}
